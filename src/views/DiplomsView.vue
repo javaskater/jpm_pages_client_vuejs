@@ -1,6 +1,9 @@
 <template>
   <main>
-    <h2>Les diplômes</h2>
+    <h2>{{ title }}</h2>
+    <ul>
+      <li v-for="diplom in diploms">{{ diplom.schoolName }} - {{ diplom.cursusDescription }}</li>
+    </ul>
   </main>
 </template>
 
@@ -11,6 +14,17 @@ import { useRoute } from 'vue-router'
 const diploms = reactive({})
 const route = useRoute()
 const language = route.params.lang
+const title = ref('')
+switch (language) {
+  case 'fr_FR':
+    title.value += 'Les Diplômes obtenus'
+    break
+  case 'de_DE':
+    title.value += 'Erhaltene Diplome'
+    break
+  default:
+    title.value += 'Diplomas obtained'
+}
 const fetchUser = (lang) => {
   const url = `http://localhost:8081/diploms/${lang}`
   fetch(url, {
